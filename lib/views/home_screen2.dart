@@ -5,7 +5,6 @@ import 'package:society_app/views/util/my_tab.dart';
 import '../pages/utility_service.dart';
 import '../tab/bill_tab.dart';
 import '../tab/complaint_tab.dart';
-import '../tab/contact_tab.dart';
 import '../tab/document_tab.dart';
 import '../tab/facility_tab.dart';
 import '../tab/notice_tab.dart';
@@ -142,7 +141,7 @@ class _HomePage2State extends State<HomePage2> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (_) => ContactUs()),
+                          MaterialPageRoute(builder: (_) => ContactUsPage()),
                         );
                       },
                       child: Container(
