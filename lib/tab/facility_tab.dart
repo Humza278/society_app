@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../facilities/facility_item.dart';
+
 class FacilityBookingPage extends StatefulWidget {
   @override
   _FacilityBookingPageState createState() => _FacilityBookingPageState();
@@ -9,6 +11,13 @@ class FacilityBookingPage extends StatefulWidget {
 class _FacilityBookingPageState extends State<FacilityBookingPage> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay = DateTime.now();
+
+  final List<String> facilities = [
+    "Tennis Court",
+    "Society Hall",
+    "Swimming Pool",
+    "Community Center",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +119,7 @@ class _FacilityBookingPageState extends State<FacilityBookingPage> {
                   children: [
                     Row(
                       children: [
-                        Container(height: 4, width: 80, color: Colors.black),
+                        Container(margin:EdgeInsets.only(bottom: 80),height: 4, width: 80, color: Colors.black),
                         Column(
                           children: [
                             Text(
@@ -139,93 +148,26 @@ class _FacilityBookingPageState extends State<FacilityBookingPage> {
                      // FACILITY BOOKINGS LIST
                     Expanded(
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 85,vertical: 2),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade300
-                            ),
-                            child: Text("Tennis Court",style: TextStyle(fontSize: 16),))
+                          FacilityItem(title: "Tennis Court"),
+                          SizedBox(height: 30),
 
-                          // bookingItem("Tennis Court (4–5 PM)"),
-                          // bookingItem("Swimming Pool (6–7 PM)"),
-                          // bookingItem("Community Hall (7–8 PM)"),
-                          // bookingItem("Meeting Room (9–10 PM)"),
+                          FacilityItem(title: "Society Hall"),
+                          SizedBox(height: 30),
+
+                          FacilityItem(title: "Swimming Pool"),
+                          SizedBox(height: 30),
+
+                          FacilityItem(title: "Community Center"),
                         ],
                       ),
-                    ),
+                    )
                   ],
                 ),
 
             )
             ),
-        
-            // ---------- WHITE BOTTOM CARD ----------
-            // Expanded(
-            //   child: Container(
-            //     width: double.infinity,
-            //     // margin: EdgeInsets.symmetric(horizontal: 16),
-            //     padding: EdgeInsets.all(20),
-            //     decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.circular(22),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.black12,
-            //           blurRadius: 15,
-            //           offset: Offset(0, 6),
-            //         ),
-            //       ],
-            //     ),
-            //     child: Row(
-            //       crossAxisAlignment: CrossAxisAlignment.start,
-            //       children: [
-            //         // BIG DATE
-            //         Column(
-            //           crossAxisAlignment: CrossAxisAlignment.center,
-            //           children: [
-            //             Container(height: 4, width: 80, color: Colors.black),
-            //             Text(
-            //               _selectedDay!.day.toString().padLeft(2, '0'),
-            //               style: TextStyle(
-            //                 fontSize: 85,
-            //                 color: Colors.blue,
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //             Text(
-            //               _dayName(_selectedDay!),
-            //               style: TextStyle(
-            //                 fontSize: 16,
-            //                 letterSpacing: 1,
-            //                 color: Colors.grey[800],
-            //                 fontWeight: FontWeight.bold,
-            //               ),
-            //             ),
-            //             SizedBox(height: 10),
-            //             Container(height: 4, width: 50, color: Colors.black),
-            //           ],
-            //         ),
-        
-            //         SizedBox(width: 25),
-        
-            //         // FACILITY BOOKINGS LIST
-            //         Expanded(
-            //           child: Column(
-            //             crossAxisAlignment: CrossAxisAlignment.start,
-            //             children: [
-            //               bookingItem("Tennis Court (4–5 PM)"),
-            //               bookingItem("Swimming Pool (6–7 PM)"),
-            //               bookingItem("Community Hall (7–8 PM)"),
-            //               bookingItem("Meeting Room (9–10 PM)"),
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
@@ -242,13 +184,6 @@ class _FacilityBookingPageState extends State<FacilityBookingPage> {
           child: Icon(Icons.add, size: 32,color: Colors.white,),
         ),
       ),
-    );
-  }
-
-  Widget bookingItem(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Text(text, style: TextStyle(fontSize: 15, color: Colors.black87)),
     );
   }
 
