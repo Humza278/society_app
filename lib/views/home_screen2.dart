@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:society_app/pages/contact_us.dart';
 import 'package:society_app/views/util/my_tab.dart';
+import 'package:society_app/widgets/custom_bottom_nav_bar.dart';
 
 import '../pages/utility_service.dart';
 import '../tab/bill_tab.dart';
@@ -20,6 +22,41 @@ class HomePage2 extends StatefulWidget {
 }
 
 class _HomePage2State extends State<HomePage2> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const Center(child: Text("Home Page")),
+    const Center(child: Text("Search Page")),
+    const Center(child: Text("Add New Post")),
+    const Center(child: Text("Likes Page")),
+    const Center(child: Text("Profile Page")),
+  ];
+
+  String userName = "";
+  String userEmail = "";
+  String userPhone = "";
+  String userAddress = "";
+
+  Future<void> loadUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userName = prefs.getString("name") ?? "";
+      userEmail = prefs.getString("email") ?? "";
+      userPhone = prefs.getString("phone") ?? "";
+      userAddress = prefs.getString("address") ?? "";
+    });
+  }
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
   // my tabs
   List<Widget> myTabs = [
     // service tab
@@ -31,18 +68,6 @@ class _HomePage2State extends State<HomePage2> {
     //bills tab
     MyTab(tabImage: "lib/images/visitor.png", tabName: "Visitor Logs"),
 
-    // Notices/announcement tab
-    // MyTab(tabImage: "lib/images/notice.png", tabName: "Notices"),
-
-    // // vistor Tab
-    // MyTab(tabImage: "lib/images/maintenance.png", tabName: "Visitor Logs"),
-
-    // // Facility Booking
-    // MyTab(tabImage: "lib/images/maintenance.png", tabName: "Facility Booking"),
-
-    // // Documents
-    // MyTab(tabImage: "lib/images/maintenance.png", tabName: "Documents "),
-
   ];
   @override
   Widget build(BuildContext context) {
@@ -51,47 +76,34 @@ class _HomePage2State extends State<HomePage2> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 24.0),
-            child: IconButton(
-              icon: Icon(Icons.menu, color: Colors.grey[800], size: 36),
-              onPressed: () {
-                // open drawer
-              },
-            ),
+          iconTheme: const IconThemeData(
+            color: Colors.black, // Set your desired color here
           ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 24.0),
-              child: GestureDetector(
-                  onTap: () {
-                        // open logout
-                        Navigator.pushAndRemoveUntil(
+        ),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(child: Center(child: Text("L O G O",style: TextStyle(fontSize: 40)))),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text("Profile"),
+                onTap: (){
+
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.logout_outlined),
+                title: Text("Logout"),
+                onTap: () {
+                  Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(builder: (_) => const LoginScreen()),
                           (route) => false,
                         );
-                  },
-                  child: Image.asset(
-                    'lib/images/logout.png', // Replace with your image asset path
-                    width: 40, // Optional: Set desired width
-                    height: 40, // Optional: Set desired height
-                  ),
-                ),
-              // IconButton(
-              //   icon: Icon(Icons.logout, color: Colors.grey[800], size: 36),
-              //   onPressed: () {
-              //     // open logout
-              //     Navigator.pushAndRemoveUntil(
-              //       context,
-              //       MaterialPageRoute(builder: (_) => const LoginScreen()),
-              //       (route) => false,
-              //     );
-              //   },
-              // ),
-            ),
-          ],
+                },
+              ),
+            ],
+          ), 
         ),
         body: Stack(
           children: [
@@ -121,7 +133,7 @@ class _HomePage2State extends State<HomePage2> {
                       // NoticeTab(),
             
                       // // vistor page
-                      VisitorTab(),
+                      VisitorScreen(),
             
                       // // Facility Booking page
                       // FacilityTab(),
@@ -165,7 +177,13 @@ class _HomePage2State extends State<HomePage2> {
                 ),
               ],
             ),
+            
           ],
+
+        ),
+         bottomNavigationBar: CustomBottomNavBar(
+          selectedIndex: _selectedIndex,
+          onItemTapped: _onItemTapped,
         ),
       ),
     );

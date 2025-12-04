@@ -5,9 +5,9 @@ import '../widgets/paint_drop.dart';
 import 'package:http/http.dart' as http;
 import 'home_screen.dart';
 import 'home_screen2.dart';
+import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,7 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool _isLoading = false;
 
-Future<void> loginUser() async {
+  Future<void> loginUser() async {
     if (!_formKey.currentState!.validate()) return;
 
     final email = emailController.text.trim();
@@ -31,41 +31,66 @@ Future<void> loginUser() async {
 
     setState(() => _isLoading = true);
 
-    // Simulate network delay
-    await Future.delayed(const Duration(seconds: 1));
+    try {
+      final url = Uri.parse("https://api.crystalfms.com/api/v1/login");
 
-    setState(() => _isLoading = false);
+      final response = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"email": email, "password": password}),
+      );
 
-    // Dummy data
-    const dummyEmail = 'user@example.com';
-    const dummyPassword = '123456';
-    const dummyStatus = 'approved'; // try also 'pending'
+      setState(() => _isLoading = false);
 
-    if (email == email && password == password) {
-      if (dummyStatus == 'approved') {
+      final data = jsonDecode(response.body);
+      // print(response.body);
 
-              /// SAVE LOGIN STATUS + LOGIN TIME
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setBool("isLoggedIn", true);
-        await prefs.setString("loginTime", DateTime.now().toIso8601String());
-        await prefs.setString("userEmail", email);
-        
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomePage2()),
-        );
-      } else if (dummyStatus == 'pending') {
+      if (response.statusCode == 200 && data["status"] == "success") {
+        final loginStatus = data["loginStatus"]; // "approved" OR "pending"
+        final token = data["token"];
+        final user = data["UserDetail"];
+
+        if (loginStatus == "active") {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+
+          await prefs.setBool("isLoggedIn", true);
+          await prefs.setString("token", token);
+
+          await prefs.setInt("userId", user["id"]);
+          await prefs.setInt("branchId", user["branch_id"]);
+          await prefs.setInt("roleId", user["role_id"]);
+
+          await prefs.setString("name", user["name"]);
+          await prefs.setString("email", user["email"]);
+          await prefs.setString("phone", user["phone"]);
+          await prefs.setString("address", user["address"]);
+          await prefs.setString("status", user["status"]);
+
+          await prefs.setString("loginTime", DateTime.now().toIso8601String());
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => HomePage2()),
+          );
+        } else if (loginStatus == "pending") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Your account is pending approval. Please wait."),
+            ),
+          );
+        }
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Your status is pending. Please wait.')),
+          SnackBar(content: Text(data["message"] ?? "Invalid credentials")),
         );
       }
-    } else {
+    } catch (e) {
+      setState(() => _isLoading = false);
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Invalid credentials.')));
+      ).showSnackBar(SnackBar(content: Text("Error: $e")));
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import '../widgets/custom_button.dart';
@@ -18,34 +20,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final addressController = TextEditingController();
   final passwordController = TextEditingController();
 
-  Future<void> registerUser() async {
+Future<void> registerUser() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final url = Uri.parse('https://your-api-url.com/register');
+    final url = Uri.parse('https://api.crystalfms.com/api/v1/register');
+
     final response = await http.post(
       url,
-      body: {
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+      },
+      body: jsonEncode({
+        'name':"Humza",
         'email': emailController.text,
         'phone': phoneController.text,
         'address': addressController.text,
         'password': passwordController.text,
-      },
+        'branch_id': 1,
+        'role_id': 4,
+      }),
     );
+
+    print(response.body);
 
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Registered Successfully!')));
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => LoginScreen()),
-      ); // Use push, not pushReplacement
+      ).showSnackBar(SnackBar(content: Text('Registered Successfully!')));
+      Navigator.push(context, MaterialPageRoute(builder: (_) => LoginScreen()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration Failed. Please try again.')),
+        SnackBar(content: Text('Registration Failed: ${response.body}')),
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
