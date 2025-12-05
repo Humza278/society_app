@@ -1,103 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:society_app/pages/contact_us.dart';
+import 'package:society_app/views/home_screen2.dart';
 import '../views/login_screen.dart';
-
-
 
 class CustomBottomNavBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
-  const CustomBottomNavBar({super.key,required this.selectedIndex,required this.onItemTapped});
+  const CustomBottomNavBar({
+    super.key,
+    required this.selectedIndex,
+    required this.onItemTapped,
+  });
 
   @override
   State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
 }
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
-  late int _currentIndex; // FIXED → internal variable
-    @override
+  // late int _currentIndex; // FIXED → internal variable
+
+    int _currentIndex = 0;
+
+  final List<Widget> _screens = [
+    HomePage2(),
+    ContactUsPage(),
+    ContactUsPage(),
+    ContactUsPage(),
+    ContactUsPage(),
+  ];
+
+
+  @override
   void initState() {
     super.initState();
     _currentIndex = widget.selectedIndex; // set initial index
   }
- 
- 
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
-        boxShadow: [BoxShadow(
-          color: Colors.black.withOpacity(0.1),
-          blurRadius: 10,
-          spreadRadius: 0,
-          offset: Offset(0, -4)
-        )]
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(30),topRight: Radius.circular(30)),
-        child: BottomNavigationBar(
-          currentIndex: _currentIndex,
-          onTap: (index) async {
-            if (index == 4) {
-              // Logout tapped
-              final prefs = await SharedPreferences.getInstance();
-              await prefs.clear();
-
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => const LoginScreen()),
-                (route) => false,
-              );
-
-              return;
-            }
-
-            setState(() {
-              _currentIndex = index;
-            });
-
-            widget.onItemTapped(index);
-          },
-          backgroundColor: Colors.white,
-          elevation: 0,
-          selectedItemColor: Colors.blueAccent,
-          unselectedItemColor: Colors.grey[500],
-          type: BottomNavigationBarType.fixed,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          items: const[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              activeIcon: Icon(Icons.home_rounded),
-              label: 'Home',
-              ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search_outlined),
-              activeIcon: Icon(Icons.search),
-              label: 'Search',
-              ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle),
-              label: 'Add',
-              ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              activeIcon: Icon(Icons.person),
-              label: 'Profile',
-              ),
-              BottomNavigationBarItem(
-              icon: Icon(Icons.logout),
-              activeIcon: Icon(Icons.logout),
-              label: 'Logout',
-            )
-                
-          ],
-        
+    return Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: Container(
+        height: 70,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffa8edea), Color(0xfffed6e3)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
           ),
+          borderRadius: BorderRadius.circular(40),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            navItem(Icons.home_outlined, "Home", 0),
+            navItem(Icons.shopping_bag_outlined, "Shop", 1),
+            navItem(Icons.edit_document, "Documents", 2),
+            navItem(Icons.phone, "Contact Us", 3),
+            navItem(Icons.person_outline, "Account", 4),
+          ],
+        ),
+      ),
+    );
+  }
+  Widget navItem(IconData icon, String label, int index) {
+    final bool isActive = _currentIndex == index;
+
+    return GestureDetector(
+      onTap: () => setState(() => _currentIndex = index),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 250),
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: isActive
+            ? BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(30),
+              )
+            : null,
+        child: Row(
+          children: [
+            Icon(icon, color: isActive ? Colors.white : Colors.black, size: 26),
+            if (isActive) ...[
+              SizedBox(width: 6),
+              Text(
+                label,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
 }
+
+

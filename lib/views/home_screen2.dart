@@ -145,36 +145,36 @@ class _HomePage2State extends State<HomePage2> {
                   ),
                 ),
 
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 25, right: 25),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (_) => ContactUsPage()),
-                        );
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.lightGreenAccent,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 4,
-                              offset: Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        padding: const EdgeInsets.all(20),
-                        child: Icon(Icons.phone, size: 28),
-                      ),
-                    ),
-                  ),
-                ),
+                // Align(
+                //   alignment: Alignment.bottomRight,
+                //   child: Padding(
+                //     padding: const EdgeInsets.only(bottom: 25, right: 25),
+                //     child: GestureDetector(
+                //       onTap: () {
+                //         Navigator.push(
+                //           context,
+                //           MaterialPageRoute(builder: (_) => ContactUsPage()),
+                //         );
+                //       },
+                //       child: Container(
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(50),
+                //           color: Colors.lightGreenAccent,
+                //           boxShadow: [
+                //             BoxShadow(
+                //               color: Colors.grey.withOpacity(0.5),
+                //               spreadRadius: 1,
+                //               blurRadius: 4,
+                //               offset: Offset(0, 2),
+                //             ),
+                //           ],
+                //         ),
+                //         padding: const EdgeInsets.all(20),
+                //         child: Icon(Icons.phone, size: 28),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             
