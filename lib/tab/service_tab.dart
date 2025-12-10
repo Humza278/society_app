@@ -91,12 +91,10 @@ class _ServiceTabState extends State<ServiceTab> {
           SizedBox(height: 25),
           CommunityServiceTile(),
           
-
-          SizedBox(height: 20),
           // -------------------- FACILITY BOOKING CARD --------------------
           FaclityTile(),
 
-          SizedBox(height: 20),
+          SizedBox(height: 50),
         ],
       ),
     );

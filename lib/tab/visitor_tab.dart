@@ -104,11 +104,14 @@ class _VisitorScreenState extends State<VisitorScreen> {
 
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.orange,
-        onPressed: showCheckInSheet,
-        label: const Text("Check In"),
-        icon: const Icon(Icons.add),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 80.0),
+        child: FloatingActionButton.extended(
+          backgroundColor: Colors.orange,
+          onPressed: showCheckInSheet,
+          label: const Text("Check In"),
+          icon: const Icon(Icons.add),
+        ),
       ),
       body: Column(
         children: [

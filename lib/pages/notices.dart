@@ -3,176 +3,166 @@ import 'package:flutter/material.dart';
 class NoticePage extends StatelessWidget {
   final List<Map<String, String>> notices = [
     {
-      "title": "Water Supply Off",
+      "title": "Announcement",
       "description":
-          "Water supply will remain suspended from 2PM–6PM for pipeline work.",
-      "date": "20 Nov",
+          "Increasing maintenance to \$20 from next month due to security increments.",
+      "postedBy": "Admin",
+      "date": "19 AUG 05 : 30 PM",
     },
     {
-      "title": "Gym Closed",
-      "description": "The gym is under renovation for the next 14 days.",
-      "date": "18 Nov",
+      "title": "New Year celebration",
+      "description":
+          "New year gathering in Seven gen society’s hall on 3rd November.",
+      "postedBy": "Admin",
+      "date": "20 AUG 05 : 30 PM",
     },
     {
-      "title": "Community Meetup",
+      "title": "Christmas party",
       "description":
-          "Annual society meetup at the central park. All residents invited!",
-      "date": "15 Nov",
+          "Christmas will be celebrated on 23rd December, 2018 at our Society auditorium.",
+      "postedBy": "Admin",
+      "date": "22 DEC 08 : 30 PM",
+    },
+    {
+      "title": "New Year celebration",
+      "description":
+          "New year gathering in Seven gen society’s hall on 3rd November.",
+      "postedBy": "Admin",
+      "date": "20 AUG 05 : 30 PM",
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade400,
+      backgroundColor: Colors.grey.shade100,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-                            // Header
+            // Header
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
                   IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      size: 30,
-                      color: Colors.black,
-                    ),
+                    icon: Icon(Icons.arrow_back, size: 26),
                   ),
-                  const SizedBox(width: 20),
-                  const Text(
-                    "Notices/Annoucement",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  SizedBox(width: 8),
+                  Text(
+                    "Notice board",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                   ),
                 ],
               ),
             ),
-        
-            const SizedBox(height: 20),
-        
-            // Top Image
-            Image.asset(
-              "lib/images/blackboard.png",
-              width: 250,
-              height: 150,
-              fit: BoxFit.contain,
-            ),
-        
-            const SizedBox(height: 25),
+
+            // Body
             Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView.builder(
-                          padding: EdgeInsets.all(16),
-                          itemCount: notices.length,
-                          itemBuilder: (context, index) {
-                            var item = notices[index];
-                        
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 18),
-                              padding: EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: Colors.black87, // Blackboard color
-                                borderRadius: BorderRadius.circular(18),
-                                border: Border.all(
-                                  color: Colors.white.withOpacity(0.7),
-                                  width: 2.5, // Chalk border
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    offset: Offset(0, 6),
-                                    blurRadius: 10,
-                                  ),
-                                ],
-                              ),
-                        
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Notice Title
-                                  Text(
-                                    item["title"]!,
-                                    style: TextStyle(
-                                      fontFamily: "Chalk",
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 1,
-                                      shadows: [
-                                        Shadow(
-                                          blurRadius: 3,
-                                          color: Colors.white24, // Chalk smudge
-                                          offset: Offset(1, 1),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                        
-                                  SizedBox(height: 10),
-                        
-                                  // Notice Description
-                                  Text(
-                                    item["description"]!,
-                                    style: TextStyle(
-                                      fontFamily: "Chalk",
-                                      fontSize: 16,
-                                      color: Colors.white70,
-                                      height: 1.4,
-                                      shadows: [
-                                        Shadow(
-                                          blurRadius: 4,
-                                          color: Colors.white24, // Chalk smudge
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                        
-                                  SizedBox(height: 15),
-                        
-                                  // Date (chalk style)
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: Colors.white.withOpacity(0.7),
-                                          width: 1.5,
-                                        ),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        item["date"]!,
-                                        style: TextStyle(
-                                          fontFamily: "Chalk",
-                                          color: Colors.white,
-                                          fontSize: 14,
-                                          letterSpacing: 1,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                itemCount: notices.length,
+                itemBuilder: (context, index) {
+                  var item = notices[index];
+
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 18),
+                    padding: EdgeInsets.all(18),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 8,
+                          offset: Offset(0, 4),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // TITLE + NEW BADGE
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                item["title"]!,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                            ),
+
+                            // NEW Badge
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 4,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              child: Text(
+                                "New",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(height: 8),
+
+                        // DESCRIPTION
+                        Text(
+                          item["description"]!,
+                          style: TextStyle(
+                            fontSize: 14.5,
+                            color: Colors.black54,
+                            height: 1.4,
+                          ),
+                        ),
+
+                        SizedBox(height: 12),
+
+                        Divider(color: Colors.grey.shade300),
+
+                        SizedBox(height: 10),
+
+                        // POSTED BY + DATE ROW
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Post by : ${item["postedBy"]}",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black54,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              item["date"]!,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.black45,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ],

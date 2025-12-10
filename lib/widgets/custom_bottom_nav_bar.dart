@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:society_app/pages/contact_us.dart';
-import 'package:society_app/views/home_screen2.dart';
-import '../views/login_screen.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
   final int selectedIndex;
   final Function(int) onItemTapped;
+
   const CustomBottomNavBar({
     super.key,
     required this.selectedIndex,
@@ -18,60 +15,66 @@ class CustomBottomNavBar extends StatefulWidget {
 }
 
 class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
-  // late int _currentIndex; // FIXED → internal variable
-
-    int _currentIndex = 0;
-
-  final List<Widget> _screens = [
-    HomePage2(),
-    ContactUsPage(),
-    ContactUsPage(),
-    ContactUsPage(),
-    ContactUsPage(),
-  ];
-
+  late int _currentIndex;
 
   @override
   void initState() {
     super.initState();
-    _currentIndex = widget.selectedIndex; // set initial index
+    _currentIndex = widget.selectedIndex; // Sync initial tab
   }
 
   @override
-  Widget build(BuildContext context) {
+  void didUpdateWidget(covariant CustomBottomNavBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // If MainHomeScreen changes tab, update bottom bar too
+    if (widget.selectedIndex != _currentIndex) {
+      _currentIndex = widget.selectedIndex;
+    }
+  }
+
+  @override
+Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(14.0),
       child: Container(
-        height: 70,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xffa8edea), Color(0xfffed6e3)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
+        color: Colors.transparent, // 👈 NAVBAR BACKGROUND IS NOW TRANSPARENT
+        child: Container(
+          height: 70,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              colors: [Color(0xffa8edea), Color(0xfffed6e3)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(40),
           ),
-          borderRadius: BorderRadius.circular(40),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            navItem(Icons.home_outlined, "Home", 0),
-            navItem(Icons.shopping_bag_outlined, "Shop", 1),
-            navItem(Icons.edit_document, "Documents", 2),
-            navItem(Icons.phone, "Contact Us", 3),
-            navItem(Icons.person_outline, "Account", 4),
-          ],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              navItem(Icons.home_outlined, "Home", 0),
+              navItem(Icons.group, "Committee", 1),
+              navItem(Icons.edit_document, "Documents", 2),
+              navItem(Icons.phone, "Contact Us", 3),
+            ],
+          ),
         ),
       ),
     );
   }
+
+
   Widget navItem(IconData icon, String label, int index) {
     final bool isActive = _currentIndex == index;
 
     return GestureDetector(
-      onTap: () => setState(() => _currentIndex = index),
+      onTap: () {
+        setState(() => _currentIndex = index); // local UI update
+        widget.onItemTapped(index); // notify parent
+      },
       child: AnimatedContainer(
-        duration: Duration(milliseconds: 250),
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        duration: const Duration(milliseconds: 250),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: isActive
             ? BoxDecoration(
                 color: Colors.black,
@@ -82,10 +85,10 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
           children: [
             Icon(icon, color: isActive ? Colors.white : Colors.black, size: 26),
             if (isActive) ...[
-              SizedBox(width: 6),
+              const SizedBox(width: 6),
               Text(
                 label,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
@@ -97,5 +100,3 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     );
   }
 }
-
-

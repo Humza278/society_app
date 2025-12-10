@@ -1,27 +1,19 @@
-import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 
-class UtilityService extends StatefulWidget {
-  const UtilityService({super.key});
+class InternetService extends StatefulWidget {
+  const InternetService({super.key});
 
   @override
-  State<UtilityService> createState() => _UtilityServiceState();
+  State<InternetService> createState() => _InternetServiceState();
 }
 
-class _UtilityServiceState extends State<UtilityService> {
+class _InternetServiceState extends State<InternetService> {
   final _formKey = GlobalKey<FormState>();
 
   String? selectedService;
   String? description;
   String? attachmentFileName;
-
-  final List<String> _services = [
-    "Electric Issue",
-    "Water Supply Issue",
-    "Internet Issue",
-    "Maintenance Request",
-    "Other Service",
-  ];
 
   Future<void> pickAttachment() async {
     final result = await FilePicker.platform.pickFiles();
@@ -32,7 +24,6 @@ class _UtilityServiceState extends State<UtilityService> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -65,7 +56,7 @@ class _UtilityServiceState extends State<UtilityService> {
                       ),
                       const SizedBox(width: 20),
                       const Text(
-                        "Utility Services",
+                        "Internet Service",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -79,7 +70,7 @@ class _UtilityServiceState extends State<UtilityService> {
 
                 // Top Image
                 Image.asset(
-                  "lib/images/maintenance.png",
+                  "lib/images/freelance.png",
                   width: 250,
                   height: 150,
                   fit: BoxFit.contain,
@@ -121,54 +112,6 @@ class _UtilityServiceState extends State<UtilityService> {
                                 ],
                               ),
                               const SizedBox(height: 25),
-
-                              // Service Dropdown
-                              // Text(
-                              //   "Service Needed",
-                              //   style: TextStyle(
-                              //     fontSize: 16,
-                              //     fontWeight: FontWeight.w600,
-                              //     color: Colors.grey[700],
-                              //   ),
-                              // ),
-                              // const SizedBox(height: 8),
-
-                              // Container(
-                              //   padding: const EdgeInsets.symmetric(
-                              //     horizontal: 14,
-                              //   ),
-                              //   decoration: BoxDecoration(
-                              //     color: Colors.grey[100],
-                              //     borderRadius: BorderRadius.circular(12),
-                              //     border: Border.all(
-                              //       color: Colors.grey.shade300,
-                              //     ),
-                              //   ),
-                              //   child: DropdownButtonFormField<String>(
-                              //     decoration: const InputDecoration(
-                              //       border: InputBorder.none,
-                              //     ),
-                              //     hint: const Text("Select service"),
-                              //     value: selectedService,
-
-                              //     items: _services.map((service) {
-                              //       return DropdownMenuItem(
-                              //         value: service,
-                              //         child: Text(service),
-                              //       );
-                              //     }).toList(),
-
-                              //     validator: (value) => value == null
-                              //         ? "Please select a service"
-                              //         : null,
-
-                              //     onChanged: (value) {
-                              //       setState(() {
-                              //         selectedService = value;
-                              //       });
-                              //     },
-                              //   ),
-                              // ),
 
                               const SizedBox(height: 22),
 
@@ -248,7 +191,7 @@ class _UtilityServiceState extends State<UtilityService> {
                                 ),
                               ),
 
-                              const SizedBox(height: 30),
+                              const SizedBox(height: 50),
 
                               // Submit Button
                               SizedBox(
@@ -282,7 +225,7 @@ class _UtilityServiceState extends State<UtilityService> {
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
-                                      color: Colors.white
+                                      color: Colors.white,
                                     ),
                                   ),
                                 ),

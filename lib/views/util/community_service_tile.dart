@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:society_app/pages/internet_service.dart';
+import 'package:society_app/pages/janitorial_service.dart';
+import 'package:society_app/pages/technician_service.dart';
+import 'package:society_app/pages/utility_service.dart';
 
 class CommunityServiceTile extends StatefulWidget {
   const CommunityServiceTile({super.key});
@@ -67,8 +71,31 @@ class _CommunityServiceTileState extends State<CommunityServiceTile> {
 
             return GestureDetector(
               onTap: () {
-                print("Clicked: ${item['title']}");
-                // Navigate to page
+                Widget destinationPage;
+
+                switch (item['title']) {
+                  case 'Utility Services':
+                    destinationPage = const UtilityService();
+                    break;
+                  case 'Technician':
+                    destinationPage = const TechnicianService();
+                    break;
+                  case 'Cable / Internet':
+                    destinationPage = const InternetService();
+                    break;
+                  case 'Janitorial':
+                    destinationPage = const JanitorialService();
+                    break;
+                  default:
+                    // A fallback page if no match is found
+                    destinationPage = const Text("Error: Page not found");
+                }
+
+                 // Now you can push the actual widget instance
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => destinationPage),
+                );
               },
               child: Padding(
                 padding: const EdgeInsets.all(12.0),

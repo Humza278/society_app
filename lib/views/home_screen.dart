@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import '../widgets/custom_top_bar.dart';
-import '../widgets/custom_bottom_nav_bar.dart';
-import '../widgets/dashboard_card.dart';
-import '../widgets/front_card.dart';
-import '../widgets/service_tile.dart' show ServiceCard; // keep only one import
+import 'package:society_app/pages/contact_us.dart';
+import 'package:society_app/pages/notices.dart';
+import 'package:society_app/tab/document_tab.dart';
+import 'package:society_app/tab/facility_tab.dart';
+import 'package:society_app/views/home_screen2.dart';
+import 'package:society_app/views/services/documents_page.dart';
+import 'package:society_app/widgets/custom_bottom_nav_bar.dart';
 
-
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class MainHomeScreen extends StatefulWidget {
+  const MainHomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MainHomeScreen> createState() => _MainHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MainHomeScreenState extends State<MainHomeScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [
-    const Center(child: Text("Home Page")),
-    const Center(child: Text("Search Page")),
-    const Center(child: Text("Add New Post")),
-    const Center(child: Text("Likes Page")),
-    const Center(child: Text("Profile Page")),
+  // Define the list of actual screens here, NOT inside the NavBar widget
+  final List<Widget> _screens = [
+    HomePage2(), // 0: Your actual home screen content
+    NoticePage(), // 1: Shop Page (Placeholder)
+    DocumentsScreen(), // 2: Documents Page (Placeholder)
+    ContactUsPage(), // 4: Account Page (Placeholder)
   ];
-
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,100 +34,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[800],
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Header
-            Padding(
-              padding: const EdgeInsets.all(25),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Welcome Text
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Welcome, Humza!",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        "13 Nov, 2025",
-                        style: TextStyle(color: Colors.blue[200]),
-                      ),
-                    ],
-                  ),
+      extendBody: true,
+      // The currently selected page is displayed in the body
+      body: _screens[_selectedIndex],
 
-                  // Notification Icon
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue[600],
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 6,
-                          offset: const Offset(2, 2),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(12),
-                    child: const Icon(Icons.notifications, color: Colors.white),
-                  ),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 25),
-
-            // Dashboard Section
-            Expanded(
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
-                ),
-                child: Container(
-                  padding: const EdgeInsets.all(25),
-                  color: Colors.white,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          Text(
-                            "Dashboard",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          Icon(Icons.more_horiz),
-                        ],
-                      ),
-                      SizedBox(height: 20,),
-                      Expanded(
-                        child: ServiceCard(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-
-      // Bottom Nav Bar
+      // We use Padding for the bottomNavigationBar to match your design's margin/padding
       bottomNavigationBar: CustomBottomNavBar(
         selectedIndex: _selectedIndex,
-        onItemTapped: _onItemTapped,
+        onItemTapped: _onItemTapped, // Pass the function up to change the index
       ),
     );
   }
