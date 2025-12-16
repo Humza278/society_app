@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:society_app/views/dashboard.dart';
 import 'views/home_screen.dart';
 import 'views/home_screen2.dart';
 import 'views/login_screen.dart';
@@ -24,6 +25,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'CrystalTech Society',
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blue, // Generates a full palette from a single color
+          brightness: Brightness.light, // Specifies light mode
+        ),
         primaryColor: const Color(0xFF5C9CE5),
         scaffoldBackgroundColor: Colors.white,
         fontFamily: 'Poppins',
@@ -38,7 +43,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: isLoggedIn ? const MainHomeScreen() : const LoginScreen(),
+      home: isLoggedIn ? const DashboardScreen() : const LoginScreen(),
     );
   }
 }
